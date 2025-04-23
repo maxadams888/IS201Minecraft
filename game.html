@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <a href="Home.Minecraft.html">Home-Minecraft</a> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minecraft Mob Guessing Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e1e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    h1 {
+      color: #62c370;
+    }
+    #mob-image {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      filter: blur(15px);
+      border: 4px solid #62c370;
+      margin-bottom: 1rem;
+      transition: filter 0.3s;
+    }
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 250px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: #62c370;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+    #result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    #next-btn {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guess the Minecraft Mob!</h1>
+  <img id="mob-image" src="zombie.jpeg" alt="Hidden mob image">
+  <div>
+    <input type="text" id="guess-input" placeholder="Enter your guess (e.g., zombie)" />
+    <button onclick="checkGuess()">Guess</button>
+  </div>
+  <div id="result"></div>
+  <button id="next-btn" onclick="loadNewMob()">Next Mob</button>
+
+  <script>
+    const mobs = [
+      { name: "zombie", image: "zombie.jpeg" },
+      { name: "creeper", image: "creeper.jpeg" },
+      { name: "skeleton", image: "skeleton.jpeg" },
+      { name: "enderman", image: "enderman.png" },
+      { name: "spider", image: "spider.jpeg" }
+    ];
+
+    let currentMob;
+
+    const mobImage = document.getElementById('mob-image');
+    const result = document.getElementById('result');
+    const input = document.getElementById('guess-input');
+    const nextBtn = document.getElementById('next-btn');
+
+    function loadNewMob() {
+      currentMob = mobs[Math.floor(Math.random() * mobs.length)];
+      mobImage.src = currentMob.image;
+      mobImage.style.filter = "blur(15px)";
+      result.textContent = "";
+      input.value = "";
+      nextBtn.style.display = "none";
+    }
+
+    function checkGuess() {
+      const userGuess = input.value.trim().toLowerCase();
+      if (userGuess === currentMob.name) {
+        mobImage.style.filter = "none";
+        result.textContent = "Correct! It's a " + currentMob.name + "!";
+        result.style.color = "#62c370";
+        nextBtn.style.display = "inline-block";
+      } else {
+        result.textContent = "Nope! Try again.";
+        result.style.color = "#ff4d4d";
+      }
+    }
+
+    // Load the first mob when the page starts
+    loadNewMob();
+  </script>
+</body>
+</html>
